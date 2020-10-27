@@ -11,7 +11,7 @@ import glob
 def make_name(items, sep="_"):
     return sep.join(items)
 
-def process_times(path,hf_times):
+def process_times(path,hf_times=None):
     lfa_runs = {}
     lfa_time = {}
     uq_time = {}
@@ -23,9 +23,10 @@ def process_times(path,hf_times):
     #path = glob.glob("/home/yzamora/proxima/examples/tests_runs/surrogate_only/*Aug*")
     for f in path:
         #Getting HF times and finding speedup
-        hf_temp = int(os.path.basename(f).split('_')[6])
-        hf_time = float(hf_times.set_index('Temp[K]').loc[hf_temp])
-        #print(hf_time)
+        if hf_times is not None:
+            hf_temp = int(os.path.basename(f).split('_')[6])
+            hf_time = float(hf_times.set_index('Temp[K]').loc[hf_temp])
+            #print(hf_time)
         uq_thresh = f.split('_')[6]
         interval = f.split('_')[10]
         temp = f.split('_')[8]
@@ -41,7 +42,8 @@ def process_times(path,hf_times):
         target_time[input_name] = lfa_stats_results['target_time']
         total_time[input_name] = lfa_stats_results['lfa_time'] + lfa_stats_results['uq_time']+ lfa_stats_results['train_time'] + lfa_stats_results['target_time']
         ##calculating spedup
-        speed_up[input_name] = hf_time/total_time[input_name]
+        if hf_times is not None:
+            speed_up[input_name] = hf_time/total_time[input_name]
         
 
     uq_thresholds = list(lfa_runs.keys())
@@ -55,22 +57,32 @@ def process_times(path,hf_times):
     train_time = list(train_time.values())
     target_time = list(target_time.values())
     total_time = list(total_time.values())
-    speed_up = list(speed_up.values())
-                    
-    zipped_total_time = zip(uq_thresholds,int_list,total_time,speed_up)
+    if hf_times is not None:
+        speed_up = list(speed_up.values())
+    if hf_times is not None:              
+        zipped_total_time = zip(uq_thresholds,int_list,total_time,speed_up)
+    else:
+        zipped_total_time = zip(uq_thresholds,int_list,total_time)
     res = sorted(zipped_total_time,key=lambda x:x[0])
-
-    uq_thresholds, int_list, total_time, speed_up_v = map(list,zip(*res))
+    
+    if hf_times is not None:
+        uq_thresholds, int_list, total_time, speed_up_v = map(list,zip(*res))
+    else:
+        uq_thresholds, int_list, total_time = map(list,zip(*res))
     
     uq_time = {}
     speed_up = {}
     count = 0
     for u in uq_thresholds:
         uq_time[u] = format(total_time[count],'.3f')
-        speed_up[u] = format(speed_up_v[count],'.3f')
+        if hf_times is not None:
+            speed_up[u] = format(speed_up_v[count],'.3f')
         count +=1
+    if hf_times is not None:
+        return uq_thresholds, int_list, total_time, uq_time, speed_up
+    else:
+        return uq_thresholds, int_list, total_time, uq_time
         
-    return uq_thresholds, int_list, total_time, uq_time, speed_up
 
 def get_true_run(true_energy, surrogate_energy_true, surrogate_energy_values):
     e_true = np.array(true_energy[0:])
