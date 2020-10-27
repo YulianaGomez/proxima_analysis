@@ -8,7 +8,7 @@ To use scripts:
 
 1. Must have Python 3.XX.XX
 2. `git clone git@github.com:YulianaGomez/proxima_analysis.git`
-3. Load 'proxima_data' into proxima_analysis directory
+3. `tar -xzvf proxima_data.tar.gz`
 4. `pip install -e .`
 
 -------
