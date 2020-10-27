@@ -10,6 +10,8 @@ To use scripts:
 2. `git clone git@github.com:YulianaGomez/proxima_analysis.git`
 3. `tar -xzvf proxima_data.tar.gz`
 4. `pip install -e .`
+5. `cd notebooks`
+6. `jupyter notebook`
 
 -------
 Directories
