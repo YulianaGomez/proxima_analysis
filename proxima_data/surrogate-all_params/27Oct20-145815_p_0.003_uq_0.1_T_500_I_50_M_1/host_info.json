@@ -1,0 +1,11 @@
+{
+  "git_commit": "560fbb6a7cd82c0eda5271527b5a1b3a1dba3eea",
+  "processor": "x86_64",
+  "python_version": "3.7.6",
+  "python_compiler": "GCC 7.3.0",
+  "hostname": "broadbill",
+  "os": "Linux-4.15.0-88-generic-x86_64-with-debian-buster-sid",
+  "cpu_name": "x86_64",
+  "n_cores": 12,
+  "accessible_cores": 12
+}

@@ -1,0 +1,11 @@
+{
+  "nsteps": 1000,
+  "random_seed": 1,
+  "perturb": 0.003,
+  "fidel": "low",
+  "model_size": null,
+  "temp": 500,
+  "uq_tol": 0.7,
+  "train_interval": 5,
+  "mols": 1
+}
