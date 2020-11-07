@@ -13,6 +13,9 @@
   
 4.  **Speedup_bar_chart**
     - Compares times and speedups between different methodologies
+    
+ 5. **Scatter_timecomparison**
+    - Corresponding colors with runs that stayed within thresholds
   
 ### Experiments that can be compared and found in proxima_data ###
 
@@ -22,6 +25,7 @@
     "NORT-Proxima_static-alpha", #Proxima - precalcualted alpha, no retrain interval
     "DA_RT50", ## Proxima - dynamica alpha, testing single RT interval of 50 
     "DAallUQ_TEMP1000", ## Proxima - testing different retrain intervals and UQ's
+    "dyn_nostreak", ##Proxima - dynamic alpha, no surrogate streak option
 
 **Simple Surrogate Experiments**
 
@@ -30,3 +34,4 @@
     "SST1000_bestparameters", ## Simple surrogate - with different Retrain intervals tested
     "SS_RI300", ## Simple Surrogate with RI 300
     "SS-UQ02_I50", ## Simple surrogate, uq: 0.2, RI: 50
+    "surrogate-all_params", ## Simple surrogate, all uq, T:500,1000, RI: 1,50, 100,500
