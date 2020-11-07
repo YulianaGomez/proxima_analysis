@@ -8,13 +8,16 @@
     - Compares results of MAE with interval use. Results are mainly used to find best interval for a simple surrogate as Proxima consistently does not
      use a predetermined retrain interval
 
-3. **Scatter_plot_method_comparison**
+3. **MAE_Temperature-Bar-chart**
+    - Compares methods showing MAE across temperatures
+    
+4. **Scatter_plot_method_comparison**
     - Compares the methods against each other by looking at the MAE and Time (uses average hf runtime as upper limit lines)
   
-4.  **Speedup_bar_chart**
+5.  **Speedup_bar_chart**
     - Compares times and speedups between different methodologies
     
- 5. **Scatter_timecomparison**
+6. **Scatter_timecomparison**
     - Corresponding colors with runs that stayed within thresholds
   
 ### Experiments that can be compared and found in proxima_data ###
