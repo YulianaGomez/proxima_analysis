@@ -27,9 +27,10 @@ def process_times(path,hf_times=None):
             hf_temp = int(os.path.basename(f).split('_')[6])
             hf_time = float(hf_times.set_index('Temp[K]').loc[hf_temp])
             #print(hf_time)
-        uq_thresh = f.split('_')[6]
-        interval = f.split('_')[10]
-        temp = f.split('_')[8]
+        f_name = os.path.basename(f)
+        uq_thresh = f_name.split('_')[4]
+        interval = f_name.split('_')[8]
+        temp = f_name.split('_')[6]
         input_name = make_name([uq_thresh, interval,temp])
          
         lfa_stats_name = open(f + "/" + 'lfa_stats.json', 'r')
@@ -100,8 +101,8 @@ def process_mae(path):
     for count, f in enumerate(path):
         file = f + "/tests_run_data.csv"
         results = pd.read_csv(file)
-        #import pdb; pdb.set_trace()
-        uq_thresh = file.split('_')[6]
+        f_name = os.path.basename(f)
+        uq_thresh = f_name.split('_')[4]
         surrogate_energy_true = results[results['surrogate'] == True]
         surrogate_energy_values = surrogate_energy_true['surrogate_energy']
         new_energy = results[results['surrogate']== False]
@@ -111,9 +112,40 @@ def process_mae(path):
         mae = format(mean_absolute_error(true_energy,e_used),'.6f')
         #mae = mean_absolute_error(true_energy,results['surrogate_energy'])
 
-        uq_value = f.split('_')[6]
-        temp = f.split('_')[8]
-        interval = f.split('_')[10]
+        uq_value = f_name.split('_')[4]
+        temp = f_name.split('_')[6]
+        interval = f_name.split('_')[8]
+
+        input_name = make_name([uq_value, interval, temp])
+        uq_thresh_fl = float(uq_thresh)
+        if uq_thresh_fl not in ct:
+            ct[input_name]=[]
+        ct[input_name].append({interval: mae})
+      
+    return ct
+
+def process_noagregg_mae(path):
+    ct = {}
+    for count, f in enumerate(path):
+        file = f + "/tests_run_data.csv"
+        results = pd.read_csv(file)
+        f_name = os.path.basename(f)
+        uq_thresh = f_name.split('_')[4]
+        surrogate_energy_true = results[results['surrogate'] == True]
+        surrogate_energy_values = surrogate_energy_true['surrogate_energy']
+        new_energy = results[results['surrogate']== False]
+        new_energy_val = new_energy['new_energy']
+        true_energy = results['true_new_energy']
+        #e_used = get_true_run(true_energy, surrogate_energy_true, surrogate_energy_values)
+        #mae = format(mean_absolute_error(true_energy,e_used),'.6f')
+        mae = mean_absolute_error(
+            surrogate_energy_true['true_new_energy'].values,
+            surrogate_energy_true['surrogate_energy'].values,
+        )
+
+        uq_value = f_name.split('_')[4]
+        temp = f_name.split('_')[6]
+        interval = f_name.split('_')[8]
 
         input_name = make_name([uq_value, interval, temp])
         uq_thresh_fl = float(uq_thresh)
@@ -128,6 +160,7 @@ def process_mae_ct(path):
     for count, f in enumerate(path):
         file = f + "/tests_run_data.csv"
         results = pd.read_csv(file)
+        f_name = os.path.basename(f)
         #import pdb; pdb.set_trace()
         uq_thresh = file.split('_')[6]
         surrogate_energy_true = results[results['surrogate'] == True]
@@ -139,9 +172,9 @@ def process_mae_ct(path):
         mae = format(mean_absolute_error(true_energy,e_used),'.6f')
         #mae = mean_absolute_error(true_energy,results['surrogate_energy'])
 
-        uq_value = f.split('_')[6]
-        temp = f.split('_')[8]
-        interval = f.split('_')[10]
+        uq_value = f_name.split('_')[4]
+        temp = f_name.split('_')[6]
+        interval = f_name.split('_')[8]
 
         uq_thresh_fl = float(uq_thresh)
         if uq_thresh_fl not in ct:
