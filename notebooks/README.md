@@ -1,5 +1,8 @@
 # Notebook descriptions #
-    
+
+
+**Paper_Graphs** - graphs used in paper
+
 1. **Energy_trajectory** 
     - Returns surrogate(orange) and target function(green) results and compares them to results of using only the target function (blue dots)
     - Specific trajectories and entire ranges can be plotted, i.e. all results for UQ 0.2
